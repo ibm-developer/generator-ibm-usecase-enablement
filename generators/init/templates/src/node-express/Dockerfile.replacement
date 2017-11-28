@@ -1,0 +1,1 @@
+[{"find": "RUN cd /app; npm install --production"},{"replace": "RUN cd /app; npm install --production\nCOPY /src /app/src/\nRUN npm install --only=dev; npm run build; npm prune --production"}]

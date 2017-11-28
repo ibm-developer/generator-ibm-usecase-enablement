@@ -1,0 +1,64 @@
+{
+	"appIconURL": "blueprint/appicon.svg",
+	"description": "This is an empty StarterKit. Add you StarterKit description here",
+	"name": "StarterKit",
+	"previewURLs": [ ],
+	"type": "WEB",
+	"tags": [ "developer" ],
+	"generators": {
+		"node": [
+			"generator-core-node-express", "generator-service-enablement", "generator-cloud-enablement", "generator-usecase-enablement"
+		],
+		"python": [
+			"generator-core-python-flask", "generator-service-enablement", "generator-cloud-enablement", "generator-usecase-enablement"
+		],
+		"java" : ["generator-java"],
+    "spring" : ["generator-java"]
+	},
+	"requiredGenerators": [
+		"not-working-yet"
+	],
+	"generatorOptions": {
+		"generator-core-node-express": {
+			"registry": "https://npm-registry.whitewater.ibm.com",
+			"scope": "@arf"
+		},
+		"generator-core-python-flask": {
+			"registry": "https://npm-registry.whitewater.ibm.com",
+			"scope": "@arf"
+		},
+		"generator-service-enablement": {
+			"registry": "https://npm-registry.whitewater.ibm.com",
+			"scope": "@arf"
+		},
+		"generator-cloud-enablement": {
+			"registry": "https://npm-registry.whitewater.ibm.com",
+			"scope": "@arf"
+		},
+		"generator-usecase-enablement": {
+			"registry": "https://npm-registry.whitewater.ibm.com",
+			"scope": "@arf"
+		},
+		"generator-java": {
+			"registry": "https://npm-registry.whitewater.ibm.com",
+			"scope" : "@arf",
+			"options": {
+				"headless": "true",
+				"buildType": "maven"
+			},
+			"java" : {
+				"options" : {
+					"createType" : "skit/liberty"
+				}
+			},
+			"spring" : {
+				"options" : {
+					"createType" : "skit/spring"
+				}
+			}
+		}
+	},
+	"thumbnailURL": "blueprint/thumbnail.svg",
+	"requiredCapabilities": [ ],
+	"email": "cloud@us.ibm.com"
+}

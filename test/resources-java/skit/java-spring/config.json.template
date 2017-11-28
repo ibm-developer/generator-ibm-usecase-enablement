@@ -1,0 +1,6 @@
+{
+  "dependencies" : [{"groupId" : "org.springframework.boot", "artifactId" : "spring-boot-starter-web"},
+        {"groupId" : "org.springframework.boot", "artifactId" : "spring-boot-actuator"}],
+  "envEntries" : [{"name" : "SPRING_ENV_VAR", "value" : "some spring environment variable value"}],
+  "properties" : [{"name" : "port", "value" : "8080"}]
+}
