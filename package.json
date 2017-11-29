@@ -1,6 +1,6 @@
 {
     "name": "generator-ibm-usecase-enablement",
-    "version": "4.0.0",
+    "version": "3.0.0",
     "description": "Generator to add usecase enablement",
     "files": [
         "generators"
@@ -13,7 +13,8 @@
         "test": " nyc mocha --recursive",
         "lint": "eslint .",
         "version": "standard-version",
-        "testjava": "mocha test/language-java/*-test.js"
+        "testjava": "mocha test/language-java/*-test.js",
+        "coveralls": "nyc report --reporter=text-lcov | coveralls"
     },
     "repository": {
         "type": "git",
@@ -35,6 +36,7 @@
     },
     "devDependencies": {
         "chai": "^4.1.2",
+        "coveralls": "^3.0.0",
         "eslint": "^4.6.1",
         "eslint-plugin-ejs": "0.0.2",
         "fs-extra": "^4.0.2",
