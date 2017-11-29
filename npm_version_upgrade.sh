@@ -9,7 +9,7 @@ export PKG_VER=`node -e "console.log(require('./package.json').version);"`
 export NPM_VER=`npm show $PKG_NAME version`
 echo "$PKG_NAME : version = $PKG_VER, npm version = $NPM_VER"
 CHECK_REG=$(curl https://registry.npmjs.com/$PKG_NAME)
-NOT_FOUND=$(node -e "console.log(Object.keys(JSON.parse(JSON.stringify($CHECK_REG))).length")
+NOT_FOUND=$(node -e "console.log(Object.keys(JSON.parse(JSON.stringify($CHECK_REG))).length)")
 HTML=$(markdown CHANGELOG.md)
 
 if [ $TRAVIS_BRANCH = "master" ]; then
