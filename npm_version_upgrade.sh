@@ -8,13 +8,18 @@ PKG_NAME=`node -e "console.log(require('./package.json').name);"`
 export PKG_VER=`node -e "console.log(require('./package.json').version);"`
 export NPM_VER=`npm show $PKG_NAME version`
 echo "$PKG_NAME : version = $PKG_VER, npm version = $NPM_VER"
+CHECK_REG=$(curl https://registry.npmjs.com/$PKG_NAME)
+NOT_FOUND=$(node -e "console.log(Object.keys(JSON.parse(JSON.stringify($CHECK_REG))).length)")
 HTML=$(markdown CHANGELOG.md)
 
 if [ $TRAVIS_BRANCH = "master" ]; then
     echo "Build targetting master - checking if this is a PR or not"
     if [[ "${TRAVIS_PULL_REQUEST}" = "false" ]]; then
         echo "This is a build on master, performing additional steps"
-        if [ $NPM_VER == $PKG_VER ]; then
+        if [ $NOT_FOUND == 0 ]; then
+            echo "$PKG_NAME is not in npm so publishing"
+            npm publish
+        elif [ $NPM_VER == $PKG_VER ]; then
              echo "Version numbers match, so changing version and committing changes"
              ./prerelease.sh
             retval=$?
@@ -25,8 +30,6 @@ if [ $TRAVIS_BRANCH = "master" ]; then
             npm publish
             node /tmp/changelog-generator-slack-notification/index.js --html "$HTML" --name "$PKG_NAME" --api "$SLACK_WEBHOOK" --v "$PKG_VER"
         fi
-
-
     fi
 
 fi
