@@ -1,0 +1,22 @@
+language: node_js
+node_js:
+- '8'
+before_install:
+- npm i -g makeshift && makeshift -r https://registry.npmjs.org
+- npm i -g markdown-to-html
+- wget https://github.com/github/hub/releases/download/v2.2.9/hub-linux-386-2.2.9.tgz
+- tar -xvzf hub-linux-386-2.2.9.tgz
+- export PATH=${PATH}:$PWD/hub-linux-386-2.2.9/bin/
+before_script:
+- cd /tmp
+- git clone -b master https://github.com/ibm-developer/changelog-generator-slack-notification.git
+- npm install changelog-generator-slack-notification
+- cd -
+script: npm test && npm run coveralls && ./npm_version_upgrade.sh
+branches:
+  only:
+  - development
+  - master
+notifications:
+  slack:
+    secure: TuDsgbx8pM5t++v11wD3CKyDRRWbP6bERabsx54iulVMNlz+PDVswd3zzIwScq+nio78/XnvShgcIXCSPk2K2h2J/IqVDHiY/yraE9RwWOsgT4vT4HMj24wBpb8RPTJolM7e7qNi+MTyCjJGQiKaZm25rq3ft8OiPFxeUJ17Zyk3kde6zkjYpSV7kDgb02GyrwMOlOds2kmPuEWUXwz2SiFqXqfLxUup9HANt13Heop4FU/CNRhd0KvcxVsgiaX/UfueEQ1OB1mpwYOXI9rR4CwPozoPz5RYKwkmJRl9t85lZYvNNuKZWb1716NieaZ5bD7FQYVaYnTmGtt7MI2jwzUuoVx4WxG8em9rkXckDepYVIsZiCI+JP47LMr5IwAOg6/iUL7JLVTnfNuyC0Q37wjpmlmci6Dpy1mxSFcg1ZR2dbRbVRkIfUuIZGNGInaWUlTAcjEp+ErunYiwMSd9BsbulFQtgqHz057IKQXsC2rZ0A7daVAXMu7UkWAd5G0Zcp0XlTZLtowt8nyM+gPq6OBD1un0l/oLLAZDpAuDxGx1mJcTC2X3FvxI0/MeeTuuIYWE5IV+YaOuP3nc/GB8Vb7MQ2N8toccH1Y0n4THt3gSUcVVeASm9WMEIJGr9RSu/vnCHrGi4+DzDZTVgh9U9ao9ep9P5Hn2lGqqONjznLE=
