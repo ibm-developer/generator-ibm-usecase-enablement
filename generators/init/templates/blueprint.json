@@ -13,7 +13,8 @@
 			"generator-core-python-flask", "generator-service-enablement", "generator-cloud-enablement", "generator-usecase-enablement"
 		],
 		"java" : ["generator-java"],
-    "spring" : ["generator-java"]
+    	"spring" : ["generator-java"],
+    	"swift" : ["generator-swiftserver"]
 	},
 	"requiredGenerators": [
 		"not-working-yet"
