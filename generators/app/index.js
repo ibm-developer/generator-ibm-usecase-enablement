@@ -117,6 +117,9 @@ module.exports = class extends Generator {
 						languageGeneratorPath = '../language-java';
 						context.language = 'java-spring';
 						break;
+					case "swift":
+						languageGeneratorPath = '../language-swift-kitura';
+						break;
 				}
 
 				logger.info("Composing with", languageGeneratorPath)
