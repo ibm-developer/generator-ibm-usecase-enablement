@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="3.1.0"></a>
+# 3.1.0 (2017-12-22)
+
+
+### Features
+
+* **build:** adding standard-version ([3ae73ac](https://github.com/ibm-developer/generator-ibm-usecase-enablement/commit/3ae73ac))
+* **build:** adding standard-version ([2dbc1f1](https://github.com/ibm-developer/generator-ibm-usecase-enablement/commit/2dbc1f1))
+* **swift:** add initial support for swift-kitura ([3a17efb](https://github.com/ibm-developer/generator-ibm-usecase-enablement/commit/3a17efb))
+
+
+
 <a name="3.0.0"></a>
 # [3.0.0](https://github.ibm.com/arf/generator-usecase-enablement/compare/v0.1.0...v3.0.0) (2017-11-21)
 
