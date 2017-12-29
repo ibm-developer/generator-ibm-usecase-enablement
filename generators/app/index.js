@@ -175,19 +175,6 @@ module.exports = class extends Generator {
 					headers: {
 						"X-Auth-Token": authToken
 					}
-				}, function () { // <- This is a completion callback
-					logger.info("Download complete");
-					if (!generator.fs.exists(tempFilePath)) {
-						logger.fatal("Failed to download StarterKit from", downloadURL);
-						return deferred.reject("Failed to download StarterKit from " + downloadURL);
-					} else {
-						logger.info("Successfully downloaded StarterKit from", downloadURL);
-					}
-					Shell.exec("unzip " + tempFilePath + " -d " + tempDirectoryPath);
-					Shell.rm(tempFilePath);
-					tempDirectoryPath += "/" + Shell.ls(tempDirectoryPath).stdout.trim();
-					starterKitSourcesPath = tempDirectoryPath + "/src";
-					return deferred.resolve(starterKitSourcesPath);
 				})
 				.on('request', () => {
 					logger.debug('Starting download')
@@ -208,7 +195,22 @@ module.exports = class extends Generator {
 					console.error("Failed to download", err);
 					return deferred.reject("Failed to download StarterKit from " + downloadURL);
 				})
-				.pipe(fs.createWriteStream(tempFilePath));
+				.pipe(fs.createWriteStream(tempFilePath))
+				.on('close', () => {
+					logger.info("Download complete");
+					if (!generator.fs.exists(tempFilePath)) {
+						logger.fatal("Failed to download StarterKit from", downloadURL);
+						return deferred.reject("Failed to download StarterKit from " + downloadURL);
+					} else {
+						logger.info("Successfully downloaded StarterKit from", downloadURL);
+					}
+						Shell.exec("unzip " + tempFilePath + " -d " + tempDirectoryPath, {async: true}, () => {
+						Shell.rm(tempFilePath);
+						tempDirectoryPath += "/" + Shell.ls(tempDirectoryPath).stdout.trim();
+						starterKitSourcesPath = tempDirectoryPath + "/src";
+						return deferred.resolve(starterKitSourcesPath);
+					});
+				});
 		}
 
 		return deferred.promise;
