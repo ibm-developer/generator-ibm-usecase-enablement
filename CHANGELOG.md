@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="3.1.1"></a>
+## [3.1.1](https://github.com/ibm-developer/generator-ibm-usecase-enablement/compare/v3.1.0...v3.1.1) (2017-12-29)
+
+
+### Bug Fixes
+
+* do not unzip until file-write stream is closed ([f1110b1](https://github.com/ibm-developer/generator-ibm-usecase-enablement/commit/f1110b1))
+
+
+
 <a name="3.1.0"></a>
 # [3.1.0](https://github.com/ibm-developer/generator-ibm-usecase-enablement/tree/v3.1.0) (2017-12-22)
 
