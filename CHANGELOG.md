@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="3.1.2"></a>
+## [3.1.2](https://github.com/ibm-developer/generator-ibm-usecase-enablement/compare/v3.1.1...v3.1.2) (2018-01-03)
+
+
+### Bug Fixes
+
+* **dep:** explicitly defined shelljs as a dependency ([85b5e9d](https://github.com/ibm-developer/generator-ibm-usecase-enablement/commit/85b5e9d))
+
+
+
 <a name="3.1.1"></a>
 ## [3.1.1](https://github.com/ibm-developer/generator-ibm-usecase-enablement/compare/v3.1.0...v3.1.1) (2017-12-29)
 
