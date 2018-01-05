@@ -12,6 +12,7 @@ const INIT_GENERATOR_PATH = path.join(GENERATORS_PATH, 'init', 'index.js');
 const FALLBACK_BLUEMIX_PATH = path.join('..', 'resources', 'fallback_bluemix.js');
 const PACKAGE_SWIFT_PATH = path.join(GENERATORS_PATH, 'init', 'templates', 'src', 'swift-kitura', 'Package.swift.partial');
 const APP_ROUTES_PATH = path.join(GENERATORS_PATH, 'init', 'templates', 'src', 'swift-kitura', 'Sources', 'Application', 'Routes', 'AppRoutes.swift');
+const SAMPLE_PATH = path.join(GENERATORS_PATH, 'init', 'templates', 'src', 'swift-kitura', 'Sources', 'Application', 'Misc', 'Sample.swift');
 
 let options;
 
@@ -50,6 +51,8 @@ describe('generator-usecase-enablement:language-swift-kitura', function () {
 			.then(function () {
 				assert.file(['Sources/Application/Routes/AppRoutes.swift']);
 				assert.fileContent('Sources/Application/Routes/AppRoutes.swift', fs.readFileSync(APP_ROUTES_PATH, 'utf8'));
+				assert.file(['Sources/Application/Misc/Sample.swift']);
+				assert.fileContent('Sources/Application/Misc/Sample.swift', fs.readFileSync(SAMPLE_PATH, 'utf8'));
 				assert.equal(1, dependencies.length);
 			});
 	});
