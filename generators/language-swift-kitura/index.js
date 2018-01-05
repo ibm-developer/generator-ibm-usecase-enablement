@@ -3,8 +3,10 @@
 const logger = require('log4js').getLogger("generator-service-enablement:language-swift-kitura");
 const fs = require('fs');
 const path = require('path');
+const Glob = require('glob');
+const _ = require('lodash');
 
-const appRoutesPath = "Sources/Application/Routes/AppRoutes.swift";
+const appPath = "Sources/Application/";
 
 let Generator = require('yeoman-generator');
 
@@ -36,24 +38,26 @@ module.exports = class extends Generator {
 				}
 			});
 	    } else {
-	    	logger.error("Could not find Package.swift at ", packageSwiftPath);
+	    	logger.error("Could not find Package.swift.partial at ", packageSwiftPath);
 	    }
 	}
 
 	writing() {
 		logger.debug("Writing");
 
-		let srcAppRoutesPath = path.join(this.context.starterKitSourcesPath, "swift-kitura", appRoutesPath); 
+		let srcPath = path.join(this.context.starterKitSourcesPath, "swift-kitura", appPath);
+		let dstPath = path.join(this.destinationPath(), appPath);
 
-		let destAppRoutesPath = path.join(this.destinationPath(), appRoutesPath);
+		let files = Glob.sync(srcPath + "/**/*", {dot: true});
 
-	    try {
-	    	//copy Sources/Application/Routes/AppRoutes.swift to destination
-	    	logger.debug("Copying AppRoutes.swift from", srcAppRoutesPath, " to ", destAppRoutesPath);
-	    	this.fs.copy(srcAppRoutesPath, destAppRoutesPath);
-	    } catch (e) {
-    	   	/* istanbul ignore next */
-    	  	throw e;
-	    }
+		_.each(files, function (srcFilePath) {
+			// Do not process srcFilePath if it is pointing to a directory
+			if (fs.lstatSync(srcFilePath).isDirectory()) return;
+
+			let dstFilePath = srcFilePath.replace(srcPath, dstPath);
+
+			logger.debug("Copying file", srcFilePath, "to", dstFilePath);
+			this.fs.copy(srcFilePath, dstFilePath);
+		}.bind(this));
 	}
 }
