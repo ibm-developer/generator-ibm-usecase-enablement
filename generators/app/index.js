@@ -206,9 +206,19 @@ module.exports = class extends Generator {
 					}
 						Shell.exec("unzip " + tempFilePath + " -d " + tempDirectoryPath, {async: true}, () => {
 						Shell.rm(tempFilePath);
-						tempDirectoryPath += "/" + Shell.ls(tempDirectoryPath).stdout.trim();
-						starterKitSourcesPath = tempDirectoryPath + "/src";
-						return deferred.resolve(starterKitSourcesPath);
+
+						// Inspect all the paths in the zip to see if we find one we care about.
+						// Sometimes the zip has a root directory from a download from Github REST API, in
+						// which case, the zip root directory is {ghorg}-{ghrepo}-{sha-7-chars}/.
+						let zipPaths = Shell.ls(tempDirectoryPath).stdout.split('\n');
+						let regex = /^.*[-]{1}.*[-]{1}[a-f0-9]{7}.*/;
+						for (let i = 0; i < zipPaths.length; i++) {
+							if (regex.test(zipPaths[i])) {
+								return deferred.resolve(tempDirectoryPath + '/' + zipPaths[i] + '/src');
+							}
+						}
+						return deferred.resolve(tempDirectoryPath + '/src');
+
 					});
 				});
 		}
