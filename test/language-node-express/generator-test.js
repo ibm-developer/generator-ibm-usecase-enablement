@@ -53,6 +53,7 @@ describe('generator-usecase-enablement:language-node-express', function () {
 		return helpers.run(MAIN_GENERATOR_PATH)
 			.inDir(nodeBuildDir, (nodeBuildDir) => {
 				fs.copySync(path.join(__dirname, 'resources', 'Dockerfile'), path.join(nodeBuildDir, 'Dockerfile'));
+				fs.copySync(path.join(__dirname, 'resources', 'manifest.yml'), path.join(nodeBuildDir, 'manifest.yml'));
 			})
 			.withOptions(options)
 			.then(function () {
@@ -60,7 +61,9 @@ describe('generator-usecase-enablement:language-node-express', function () {
 				assert.file(['public/index.html']);
 				assert.file(['server/routers/usecase-router.js']);
 				assert.fileContent('.gitignore', fs.readFileSync(GIT_IGNORE_PARTIAL_PATH, 'utf8'));
-				assert.fileContent('manifest.yml', fs.readFileSync(MANIFEST_YAML_PARTIAL_PATH, 'utf8'));
+				assert.fileContent('manifest.yml', 'disk_quota: 1024M');
+				assert.fileContent('manifest.yml', 'command: npm prune --production && NODE_ENV=production npm start');
+				assert.fileContent('manifest.yml', 'timeout: 180');
 				assert.jsonFileContent('package.json', JSON.parse(fs.readFileSync(PACKAGE_JSON_PARTIAL_PATH, 'utf8')));
 				assert.fileContent('public/index.html', fs.readFileSync(HTML_PATH, 'utf8'));
 				assert.fileContent('.bluemix/pipeline.yml', fs.readFileSync(PIPELINE_YAML_PARTIAL_PATH, 'utf8'));
