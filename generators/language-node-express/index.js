@@ -142,6 +142,48 @@ module.exports = class extends Generator {
 		this.fs.extendJSON(packageJsonPath, serviceDependencies);
 	}
 
+	_recursiveReplaceYaml(overrideSpec,originalSpec) {
+		// if the current item is a value, return.
+		if(typeof overrideSpec !== 'object') {
+			return;
+		}
+
+		// if the current object is an array, we check the number of items in the list.
+		if(Array.isArray(originalSpec)) {
+			// if it doesn't match, throw an error.
+			if(!Array.isArray(overrideSpec) || originalSpec.length !== overrideSpec.length) {
+				throw 'Array length mismatch. You should consider replacing the whole file if you are making changes like that';
+				return;
+			}
+
+			// if it matches, iterate.
+			for(let i = 0; i < originalSpec.length; i++) {
+				// check deeper if there's something to override, else just replace with original.
+				if(overrideSpec[i]) {
+					this._recursiveReplaceYaml(overrideSpec[i], originalSpec[i]);
+				} else {
+					overrideSpec[i] = originalSpec[i];
+				}
+			}
+
+			return;
+		}
+
+		// if the current originalSpec is an object, we iterate through its key value pairs.
+		if(typeof originalSpec === 'object') {
+			for(let key in originalSpec) {
+				// check deeper if there is something to override, else just add original
+				if(overrideSpec && overrideSpec[key]) {
+					this._recursiveReplaceYaml(overrideSpec[key], originalSpec[key]);
+				} else {
+					overrideSpec[key] = originalSpec[key];
+				}
+			}
+		}
+
+		return;
+	}
+
 	_addOverrideYaml(overrideSpec, originalYamlPath) {
 		if (overrideSpec) {
 			var originalYamlSpec;
@@ -149,13 +191,7 @@ module.exports = class extends Generator {
 				originalYamlSpec = yaml.safeLoad(this.fs.read(originalYamlPath))
 			}
 			if (originalYamlSpec) {
-				for (let key in originalYamlSpec) {
-					let array = originalYamlSpec[key];//array with one element=object (just the way the yaml lib parses yaml
-					if (!overrideSpec[key]) { //if the override obj doesnt contain original key, then add key to override object
-						overrideSpec[key] = array;
-					}
-
-				}
+				this._recursiveReplaceYaml(overrideSpec, originalYamlSpec);
 			}
 			let regex = new RegExp(/\'\$\{/, 'g');
 			let regex1 = new RegExp("}'\n", 'g');
