@@ -27,6 +27,23 @@
 [img-codacy]: https://api.codacy.com/project/badge/Grade/<enter-project-id>?branch=master
 [url-codacy]: https://www.codacy.com/app/ibm-developer/generator-ibm-usecase-enablement
 
+## Introduction
+
+This generator produces content from another source such as a Git repository. Also, existing files that already exist in the destination directory can be extended via [partial files](#partial_files). The folder structure for the source repository should be like the following.
+
+```
+  src
+  ├── java-liberty
+  ├── java-spring
+  ├── node-express
+  ├── public
+  ├── python-flask
+  └── swift-kitura
+```
+
+* Files are seperated by each language folder except public which is shared across all langauges. Currently, supported languages are `java-liberty`, `java-spring`, `node-express`, `python-flask` and `swift-kitura`
+
+
 ## Pre-requisites
 
 Install [Yeoman](http://yeoman.io)
@@ -44,7 +61,30 @@ npm install -g generator-ibm-usecase-enablement
 ## Usage
 
 Following command line arguments are supported
-* `--bluemix {stringified-json}` -  used by Scaffolder to supply project information from `pman`. For an example of a bluemix.json look at the [fallback_bluemix.js](./generators/app/fallback_bluemix.js) file.
+* `--bluemix {stringified-json}` -  used by  an intermal microservice  to supply project information. For an example of a bluemix.json look at the [fallback_bluemix.js](./generators/app/fallback_bluemix.js) file.
+
+<a name="partial_files"></a>
+### Partial Files
+
+Partial files such as *manifest.yml.partial* allows files to be extended if the file exist in the destination directory. For example, if a `package.jsn` file already exists it will add onto using `package.json.partial`.
+
+
+The following partial file(s) are supported with examples.
+
+* [manifest.yml.partial](./generators/init/templates/src/node-express/manifest.yml.partial)
+* [package.json.partial](./generators/init/templates/src/node-express/package.json.partial)
+* [.gitignore.partial](./generators/init/templates/src/node-express/.gitignore.partial)
+* [requirements.txt.partial](./generators/init/templates/src/python-flask/requirements.txt.partial)
+* [Package.swift.partial](./generators/init/templates/src/swift-kitura/Package.swift.partial)
+
+### Replacement Files
+
+Replacement files are similar to partial files except that content is replaced instead of extended. The replacement files contains a single array of JSON objects. Each object has two key-value pairs: `find` and `replace`.
+The `find` key-value will search for any string that matches the exact substring and `replace` key-value will replace the content.
+
+The following replacement file(s) are supported with examples.
+
+* [Dockerfile.replacement](./generators/init/templates/src/node-express/Dockerfile.replacement)
 
 ## Development
 
