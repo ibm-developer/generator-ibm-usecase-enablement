@@ -67,16 +67,6 @@ module.exports = class extends Generator {
 			}
 		}
 
-		// Process pipeline.yaml.partial
-		let srcPipelineYamlPartialPath = srcNodePath + "/.bluemix/pipeline.yml.partial";
-		if (this.fs.exists(srcPipelineYamlPartialPath)) {
-			try {
-				this._addOverrideYaml(yaml.safeLoad(this.fs.read(srcPipelineYamlPartialPath)), "./.bluemix/pipeline.yml");
-			} catch (e) {
-				logger.error("Failed to parse pipeline.yml.partial: " + e);
-			}
-		}
-
 		// Process .gitignore.partial
 		let srcGitIgnorePartialPath = srcNodePath + "/.gitignore.partial";
 		let dstGitIgnorePath = dstRoot + "/.gitignore";
