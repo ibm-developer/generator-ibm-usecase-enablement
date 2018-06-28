@@ -1,6 +1,5 @@
----
 applications:
-  - disk_quota: 1024M
-    name: example
-    domain: mybluemix.net
-    command: npm prune --production && NODE_ENV=production npm start
+  - command: npm prune --production && NODE_ENV=production npm start
+    disk_quota: 1024M
+    env:
+      NPM_CONFIG_PRODUCTION: false

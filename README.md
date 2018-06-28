@@ -61,12 +61,12 @@ npm install -g generator-ibm-usecase-enablement
 ## Usage
 
 Following command line arguments are supported
-* `--bluemix {stringified-json}` -  used by  an intermal microservice  to supply project information. For an example of a bluemix.json look at the [fallback_bluemix.js](./generators/app/fallback_bluemix.js) file.
+* `--bluemix {stringified-json}` -  used by  an internal microservice  to supply project information. For an example of a bluemix.json look at the [fallback_bluemix.js](./generators/app/fallback_bluemix.js) file.
 
 <a name="partial_files"></a>
 ### Partial Files
 
-Partial files such as *manifest.yml.partial* allows files to be extended if the file exist in the destination directory. For example, if a `package.jsn` file already exists it will add onto using `package.json.partial`.
+Partial files such as *manifest.yml.partial* allows files to be extended if the file exist in the destination directory. For example, if a `package.json` file already exists it will add onto using `package.json.partial`.
 
 
 The following partial file(s) are supported with examples.

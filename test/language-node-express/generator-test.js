@@ -14,7 +14,6 @@ const HTML_PATH = path.join(GENERATORS_PATH, 'init', 'templates', 'src', 'public
 const GIT_IGNORE_PARTIAL_PATH = path.join(GENERATORS_PATH, 'init', 'templates', 'src', 'node-express', '.gitignore.partial');
 const PACKAGE_JSON_PARTIAL_PATH = path.join(GENERATORS_PATH, 'init', 'templates', 'src', 'node-express', 'package.json.partial');
 const MANIFEST_YAML_PARTIAL_PATH = path.join(GENERATORS_PATH, 'init', 'templates', 'src', 'node-express', 'manifest.yml.partial');
-const PIPELINE_YAML_PARTIAL_PATH = path.join(GENERATORS_PATH, 'init', 'templates', 'src', 'node-express', '.bluemix', 'pipeline.yml.partial');
 const USECASE_ROUTER_PATH = path.join(GENERATORS_PATH, 'init', 'templates', 'src', 'node-express', 'server', 'routers', 'usecase-router.js');
 
 let options;
@@ -63,10 +62,10 @@ describe('generator-usecase-enablement:language-node-express', function () {
 				assert.fileContent('.gitignore', fs.readFileSync(GIT_IGNORE_PARTIAL_PATH, 'utf8'));
 				assert.fileContent('manifest.yml', 'disk_quota: 1024M');
 				assert.fileContent('manifest.yml', 'command: npm prune --production && NODE_ENV=production npm start');
+				assert.fileContent('manifest.yml', 'NPM_CONFIG_PRODUCTION: false');
 				assert.fileContent('manifest.yml', 'timeout: 180');
 				assert.jsonFileContent('package.json', JSON.parse(fs.readFileSync(PACKAGE_JSON_PARTIAL_PATH, 'utf8')));
 				assert.fileContent('public/index.html', fs.readFileSync(HTML_PATH, 'utf8'));
-				assert.fileContent('.bluemix/pipeline.yml', fs.readFileSync(PIPELINE_YAML_PARTIAL_PATH, 'utf8'));
 				assert.fileContent('server/routers/usecase-router.js', fs.readFileSync(USECASE_ROUTER_PATH, 'utf8'));
 				assert.fileContent('Dockerfile', 'npm run build;');
 			});
