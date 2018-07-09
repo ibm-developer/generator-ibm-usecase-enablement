@@ -1,6 +1,6 @@
 {
   "name": "generator-ibm-usecase-enablement",
-  "version": "3.2.3",
+  "version": "3.2.4",
   "description": "Generator to add usecase enablement",
   "files": [
     "generators"
