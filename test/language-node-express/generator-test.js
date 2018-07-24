@@ -28,7 +28,6 @@ const FALLBACK_BLUEMIX_PATH = path.join('..', 'resources', 'fallback_bluemix.js'
 const HTML_PATH = path.join(GENERATORS_PATH, 'init', 'templates', 'src', 'public', 'index.html');
 const GIT_IGNORE_PARTIAL_PATH = path.join(GENERATORS_PATH, 'init', 'templates', 'src', 'node-express', '.gitignore.partial');
 const PACKAGE_JSON_PARTIAL_PATH = path.join(GENERATORS_PATH, 'init', 'templates', 'src', 'node-express', 'package.json.partial');
-const MANIFEST_YAML_PARTIAL_PATH = path.join(GENERATORS_PATH, 'init', 'templates', 'src', 'node-express', 'manifest.yml.partial');
 const PIPELINE_YAML_PARTIAL_PATH = path.join(GENERATORS_PATH, 'init', 'templates', 'src', 'node-express', '.bluemix', 'pipeline.yml.partial');
 const USECASE_ROUTER_PATH = path.join(GENERATORS_PATH, 'init', 'templates', 'src', 'node-express', 'server', 'routers', 'usecase-router.js');
 

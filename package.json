@@ -12,6 +12,7 @@
   "scripts": {
     "test": " nyc mocha --recursive",
     "lint": "eslint .",
+    "autofix": "eslint --fix .",
     "version": "standard-version",
     "testjava": "mocha test/language-java/*-test.js",
     "coveralls": "nyc report --reporter=text-lcov | coveralls"
@@ -25,26 +26,26 @@
   "dependencies": {
     "glob": "^7.1.2",
     "guid": "0.0.12",
-    "handlebars": "^4.0.10",
-    "js-yaml": "^3.10.0",
-    "lodash": "^4.17.4",
+    "handlebars": "^4.0.11",
+    "js-yaml": "^3.12.0",
+    "lodash": "^4.17.10",
     "log4js": "^1.1.1",
     "minimatch": "^3.0.4",
-    "q": "^1.5.0",
-    "request": "^2.81.0",
-    "yeoman-generator": "^1.1.1",
-    "shelljs": "^0.7.0"
+    "q": "^1.5.1",
+    "request": "^2.87.0",
+    "shelljs": "^0.7.0",
+    "yeoman-generator": "^1.1.1"
   },
   "devDependencies": {
     "chai": "^4.1.2",
-    "coveralls": "^3.0.0",
-    "eslint": "^4.6.1",
+    "coveralls": "^3.0.2",
+    "eslint": "^4.19.1",
     "eslint-plugin-ejs": "0.0.2",
-    "fs-extra": "^4.0.2",
+    "fs-extra": "^4.0.3",
     "mocha": "^3.5.3",
-    "nyc": "^11.2.1",
-    "standard-version": "^4.2.0",
-    "yeoman-assert": "^3.0.0",
-    "yeoman-test": "^1.6.0"
+    "nyc": "^11.9.0",
+    "standard-version": "^4.4.0",
+    "yeoman-assert": "^3.1.1",
+    "yeoman-test": "^1.8.0"
   }
 }

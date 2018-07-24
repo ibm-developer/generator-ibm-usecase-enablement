@@ -49,7 +49,7 @@ Handlebars.registerHelper('toLowerCase', function(context) {
 });
 
 Handlebars.registerHelper('tag', function(context) {
-	return "{{" + context + "}}";
+	return '{{' + context + '}}';
 });
 
 Handlebars.registerHelper('firstAvailable', function() {
@@ -58,9 +58,9 @@ Handlebars.registerHelper('firstAvailable', function() {
 			return arguments[i];
 		}
 	}
-	return "undefined";
+	return 'undefined';
 });
 
 module.exports = {
 	handlebars : Handlebars
-}
+};

@@ -63,7 +63,7 @@ describe('generator-usecase-enablement:init', function () {
 
 					assert.fileContent('src/node-express/manifest.yml.partial', fs.readFileSync(
 						path.join(__dirname, '..', 'generators', 'init', 'templates', 'src', 'node-express', 'manifest.yml.partial'), 'utf8'));
-					});
+				});
 		});
 
 		it('creates devops files in src/node-express/.bluemix folder with correct content', function(){
