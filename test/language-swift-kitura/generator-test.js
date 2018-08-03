@@ -1,20 +1,31 @@
+/*
+ * © Copyright IBM Corp. 2017, 2018
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 'use strict';
 
 const fs = require('fs');
 const path = require('path');
 const assert = require('assert');
 const helpers = require('yeoman-test');
-const constants = require('../resources/constants');
 
 const GENERATORS_PATH = path.join(__dirname, '..', '..', 'generators');
 const MAIN_GENERATOR_PATH = path.join(GENERATORS_PATH, 'app', 'index.js');
 const INIT_GENERATOR_PATH = path.join(GENERATORS_PATH, 'init', 'index.js');
 const FALLBACK_BLUEMIX_PATH = path.join('..', 'resources', 'fallback_bluemix.js');
-const PACKAGE_SWIFT_PATH = path.join(GENERATORS_PATH, 'init', 'templates', 'src', 'swift-kitura', 'Package.swift.partial');
 const APP_ROUTES_PATH = path.join(GENERATORS_PATH, 'init', 'templates', 'src', 'swift-kitura', 'Sources', 'Application', 'Routes', 'AppRoutes.swift');
 const SAMPLE_PATH = path.join(GENERATORS_PATH, 'init', 'templates', 'src', 'swift-kitura', 'Sources', 'Application', 'Misc', 'Sample.swift');
-
-let options;
 
 describe('generator-usecase-enablement:language-swift-kitura', function () {
 	let swiftBuildDir;

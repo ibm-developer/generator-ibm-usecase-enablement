@@ -2,6 +2,21 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="3.2.5"></a>
+## [3.2.5](https://github.com/ibm-developer/generator-ibm-usecase-enablement/compare/v3.2.4...v3.2.5) (2018-07-24)
+
+
+### Bug Fixes
+
+* **java:** use glob to copy files without reading them ([bd91fce](https://github.com/ibm-developer/generator-ibm-usecase-enablement/commit/bd91fce))
+
+
+
+<a name="3.2.4"></a>
+## [3.2.4](https://github.com/ibm-developer/generator-ibm-usecase-enablement/compare/v3.2.3...v3.2.4) (2018-07-09)
+
+
+
 <a name="3.2.3"></a>
 ## [3.2.3](https://github.com/ibm-developer/generator-ibm-usecase-enablement/compare/v3.2.2...v3.2.3) (2018-06-20)
 

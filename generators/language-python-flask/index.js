@@ -1,7 +1,22 @@
+/*
+ * © Copyright IBM Corp. 2017, 2018
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 'use strict';
 
 const Log4js = require('log4js');
-const logger = Log4js.getLogger("generator-service-enablement:language-python-flask");
+const logger = Log4js.getLogger('generator-service-enablement:language-python-flask');
 const Glob = require('glob');
 const _ = require('lodash');
 const minimatch = require('minimatch');
@@ -15,17 +30,17 @@ module.exports = class extends Generator {
 		super(args, opts);
 		this.context = opts.context;
 		logger.setLevel(this.context.loggerLevel);
-		logger.debug("Constructing");
+		logger.debug('Constructing');
 	}
 
 	writing() {
 		let srcRoot = this.context.starterKitSourcesPath;
-		let srcPublicPath = srcRoot + "/public";
-		let srcPythonPath = srcRoot + "/python-flask";
-		let srcSharedPath = srcRoot + "/shared";
+		let srcPublicPath = srcRoot + '/public';
+		let srcPythonPath = srcRoot + '/python-flask';
+		let srcSharedPath = srcRoot + '/shared';
 
 		let dstRoot = this.destinationPath();
-		let dstPublicPath = dstRoot + "/public";
+		let dstPublicPath = dstRoot + '/public';
 		let dstPythonPath = dstRoot;
 
 		let templateContext = {
@@ -34,31 +49,31 @@ module.exports = class extends Generator {
 
 		// Copy /src/shared
 		if (fs.existsSync(srcSharedPath)){
-			logger.debug("Copying shared files from", srcSharedPath);
+			logger.debug('Copying shared files from', srcSharedPath);
 			this._copyFiles(srcSharedPath, dstPythonPath, templateContext);
 		}
 
 		// Copy /src/public
 		if (fs.existsSync(srcPublicPath)){
-			logger.debug("Copying public files from", srcPublicPath);
+			logger.debug('Copying public files from', srcPublicPath);
 			this._copyFiles(srcPublicPath, dstPublicPath, templateContext);
 		}
 
 		// Copy /src/node-express
 		if (fs.existsSync(srcPythonPath)){
-			logger.debug("Copying python-flask files from", srcPythonPath);
+			logger.debug('Copying python-flask files from', srcPythonPath);
 			this._copyFiles(srcPythonPath, dstPythonPath, templateContext);
 		}
 
 		// Process requirements.txt.partial
-		let srcRequirementsTxtPartialPath = srcPythonPath + "/requirements.txt.partial";
+		let srcRequirementsTxtPartialPath = srcPythonPath + '/requirements.txt.partial';
 		if (this.fs.exists(srcRequirementsTxtPartialPath)) {
 			this._addDependencies(this.fs.read(srcRequirementsTxtPartialPath));
 		}
 
 		// Process .gitignore.partial
-		let srcGitIgnorePartialPath = srcPythonPath + "/.gitignore.partial";
-		let dstGitIgnorePath = dstRoot + "/.gitignore";
+		let srcGitIgnorePartialPath = srcPythonPath + '/.gitignore.partial';
+		let dstGitIgnorePath = dstRoot + '/.gitignore';
 		if (this.fs.exists(srcGitIgnorePartialPath)) {
 			let srcGitIgnorePartialContent = this.fs.read(srcGitIgnorePartialPath);
 			if (this.fs.exists(dstGitIgnorePath)) {
@@ -72,15 +87,15 @@ module.exports = class extends Generator {
 	}
 
 	_copyFiles(srcPath, dstPath, templateContext) {
-		logger.debug("Copying files recursively from", srcPath, "to", dstPath);
-		let files = Glob.sync(srcPath + "/**/*", {dot: true});
+		logger.debug('Copying files recursively from', srcPath, 'to', dstPath);
+		let files = Glob.sync(srcPath + '/**/*', {dot: true});
 		_.each(files, function (srcFilePath) {
 
 			// Do not process srcFilePath if it is pointing to a directory
 			if (fs.lstatSync(srcFilePath).isDirectory()) return;
 
 			// Do not process files that end in .partial, they're processed separately
-			if (srcFilePath.indexOf(".partial") > 0) return;
+			if (srcFilePath.indexOf('.partial') > 0) return;
 
 			let dstFilePath = srcFilePath.replace(srcPath, dstPath);
 			let isEjsTemplate = true;
@@ -91,10 +106,10 @@ module.exports = class extends Generator {
 				}
 			});
 			if (isEjsTemplate) {
-				logger.debug("Copying template", srcFilePath, "to", dstFilePath);
+				logger.debug('Copying template', srcFilePath, 'to', dstFilePath);
 				this.fs.copyTpl(srcFilePath, dstFilePath, templateContext);
 			} else {
-				logger.debug("Copying file", srcFilePath, "to", dstFilePath);
+				logger.debug('Copying file', srcFilePath, 'to', dstFilePath);
 				this.fs.copy(srcFilePath, dstFilePath);
 			}
 
@@ -102,7 +117,7 @@ module.exports = class extends Generator {
 	}
 
 	_addDependencies(serviceDepdendenciesString) {
-		let requirementsTxtPath = this.destinationPath("./requirements.txt");
+		let requirementsTxtPath = this.destinationPath('./requirements.txt');
 		if (this.fs.exists(requirementsTxtPath)) {
 			this.fs.append(requirementsTxtPath, serviceDepdendenciesString);
 		} else {
@@ -111,8 +126,8 @@ module.exports = class extends Generator {
 	}
 
 	_addRouters(srcPythonPath, dstPythonPath) {
-		srcPythonPath += "/server/routes";
-		let routesInitFilePath = dstPythonPath + "/server/routes/__init__.py";
+		srcPythonPath += '/server/routes';
+		let routesInitFilePath = dstPythonPath + '/server/routes/__init__.py';
 
 		let importModulesString =
 			`from os.path import dirname, basename, isfile

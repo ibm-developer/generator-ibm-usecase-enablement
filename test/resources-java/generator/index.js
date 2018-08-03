@@ -1,5 +1,5 @@
 /*
- * Copyright IBM Corporation 2017
+ * © Copyright IBM Corp. 2017, 2018
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,37 +19,33 @@
  * use-case generator when run in production
  */
 
-
 const Generator = require('yeoman-generator');
 const path = require('path');
-const handlebars = require('handlebars');
-const javaGenerator = require('../../../generators/language-java/index');
 
 module.exports = class extends Generator {
-  constructor(args, opts) {
-    super(args, opts);
-    this.conf = Object.assign({}, opts);
-    this.conf.createType = "build";
-    this.values = {
-      parentContext : {
-        bluemix : { backendPlatform : opts.backendPlatform },
-        _addDependencies : opts.callback,
-        usecaseContext : {
-          
-        }
-      },
-      bluemix : "{}",
-      starter : '"local"',
-      starterOptions : opts.starterOptions
-    }
-  }
+	constructor(args, opts) {
+		super(args, opts);
+		this.conf = Object.assign({}, opts);
+		this.conf.createType = 'build';
+		this.values = {
+			parentContext : {
+				bluemix : { backendPlatform : opts.backendPlatform },
+				_addDependencies : opts.callback,
+				usecaseContext : {
 
-  initializing(){
-    const filePath = path.join(__dirname, "..", "..", "..", "generators", "app", "index.js");
-    this.composeWith(filePath, this.values);
-  }
+				}
+			},
+			bluemix : '{}',
+			starter : '"local"',
+			starterOptions : opts.starterOptions
+		};
+	}
 
-  writing(){
+	initializing(){
+		const filePath = path.join(__dirname, '..', '..', '..', 'generators', 'app', 'index.js');
+		this.composeWith(filePath, this.values);
+	}
 
-  }
-}
+	writing(){
+	}
+};

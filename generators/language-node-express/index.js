@@ -1,7 +1,22 @@
+/*
+ * © Copyright IBM Corp. 2017, 2018
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 'use strict';
 
 const Log4js = require('log4js');
-const logger = Log4js.getLogger("generator-service-enablement:language-node-express");
+const logger = Log4js.getLogger('generator-service-enablement:language-node-express');
 const Glob = require('glob');
 const _ = require('lodash');
 const minimatch = require('minimatch');
@@ -16,17 +31,17 @@ module.exports = class extends Generator {
 		super(args, opts);
 		this.context = opts.context;
 		logger.setLevel(this.context.loggerLevel);
-		logger.debug("Constructing");
+		logger.debug('Constructing');
 	}
 
 	writing() {
 		let srcRoot = this.context.starterKitSourcesPath;
-		let srcPublicPath = srcRoot + "/public";
-		let srcNodePath = srcRoot + "/node-express";
-		let srcSharedPath = srcRoot + "/shared";
+		let srcPublicPath = srcRoot + '/public';
+		let srcNodePath = srcRoot + '/node-express';
+		let srcSharedPath = srcRoot + '/shared';
 
 		let dstRoot = this.destinationPath();
-		let dstPublicPath = dstRoot + "/public";
+		let dstPublicPath = dstRoot + '/public';
 		let dstNodePath = dstRoot;
 
 		let templateContext = {
@@ -35,41 +50,41 @@ module.exports = class extends Generator {
 
 		// Copy /src/shared
 		if (fs.existsSync(srcSharedPath)){
-			logger.debug("Copying shared files from", srcSharedPath);
+			logger.debug('Copying shared files from', srcSharedPath);
 			this._copyFiles(srcSharedPath, dstNodePath, templateContext);
 		}
 
 		// Copy /src/public
 		if (fs.existsSync(srcPublicPath)){
-			logger.debug("Copying public files from", srcPublicPath);
+			logger.debug('Copying public files from', srcPublicPath);
 			this._copyFiles(srcPublicPath, dstPublicPath, templateContext);
 		}
 
 		// Copy /src/node-express
 		if (fs.existsSync(srcNodePath)){
-			logger.debug("Copying node-express files from", srcNodePath);
+			logger.debug('Copying node-express files from', srcNodePath);
 			this._copyFiles(srcNodePath, dstNodePath, templateContext);
 		}
 
 		// Process package.json.partial
-		let srcPackageJsonPartialPath = srcNodePath + "/package.json.partial";
+		let srcPackageJsonPartialPath = srcNodePath + '/package.json.partial';
 		if (this.fs.exists(srcPackageJsonPartialPath)) {
 			this._addDependencies(this.fs.read(srcPackageJsonPartialPath));
 		}
 
 		// Process manifest.yaml.partial
-		let srcManifestYamlPartialPath = srcNodePath + "/manifest.yml.partial";
+		let srcManifestYamlPartialPath = srcNodePath + '/manifest.yml.partial';
 		if (this.fs.exists(srcManifestYamlPartialPath)) {
 			try {
-				this._addOverrideYaml(yaml.safeLoad(this.fs.read(srcManifestYamlPartialPath)), "./manifest.yml");
+				this._addOverrideYaml(yaml.safeLoad(this.fs.read(srcManifestYamlPartialPath)), './manifest.yml');
 			} catch (e) {
-				logger.error("Failed to parse manifest.yml.partial: " + e);
+				logger.error('Failed to parse manifest.yml.partial: ' + e);
 			}
 		}
 
 		// Process .gitignore.partial
-		let srcGitIgnorePartialPath = srcNodePath + "/.gitignore.partial";
-		let dstGitIgnorePath = dstRoot + "/.gitignore";
+		let srcGitIgnorePartialPath = srcNodePath + '/.gitignore.partial';
+		let dstGitIgnorePath = dstRoot + '/.gitignore';
 		if (this.fs.exists(srcGitIgnorePartialPath)) {
 			let srcGitIgnorePartialContent = this.fs.read(srcGitIgnorePartialPath);
 			if (this.fs.exists(dstGitIgnorePath)) {
@@ -79,9 +94,9 @@ module.exports = class extends Generator {
 			}
 		}
 
-		// Process Dockerfile.replacement: takes [{find:"string","replace":"newString}, {find:"string1","replace":"newString1}]
-		let srcDockerfilePath = srcNodePath + "/Dockerfile.replacement";
-		let dstDockerfilePath = dstRoot + "/Dockerfile";
+		// Process Dockerfile.replacement: takes [{find:'string','replace':'newString}, {find:'string1','replace':'newString1}]
+		let srcDockerfilePath = srcNodePath + '/Dockerfile.replacement';
+		let dstDockerfilePath = dstRoot + '/Dockerfile';
 		if (this.fs.exists(srcDockerfilePath) && this.fs.exists(dstDockerfilePath)) {
 			let srcDockerContent = this.fs.readJSON(srcDockerfilePath,[]);
 			let dstDockerContent = this.fs.read(dstDockerfilePath);
@@ -97,15 +112,15 @@ module.exports = class extends Generator {
 	}
 
 	_copyFiles(srcPath, dstPath, templateContext) {
-		logger.debug("Copying files recursively from", srcPath, "to", dstPath);
-		let files = Glob.sync(srcPath + "/**/*", {dot: true});
+		logger.debug('Copying files recursively from', srcPath, 'to', dstPath);
+		let files = Glob.sync(srcPath + '/**/*', {dot: true});
 		_.each(files, function (srcFilePath) {
 
 			// Do not process srcFilePath if it is pointing to a directory
 			if (fs.lstatSync(srcFilePath).isDirectory()) return;
 
 			// Do not process files that end in .partial, they're processed separately
-			if (srcFilePath.indexOf(".partial") > 0 || srcFilePath.indexOf(".replacement") > 0) return;
+			if (srcFilePath.indexOf('.partial') > 0 || srcFilePath.indexOf('.replacement') > 0) return;
 
 			let dstFilePath = srcFilePath.replace(srcPath, dstPath);
 			let isEjsTemplate = true;
@@ -116,10 +131,10 @@ module.exports = class extends Generator {
 				}
 			});
 			if (isEjsTemplate) {
-				logger.debug("Copying template", srcFilePath, "to", dstFilePath);
+				logger.debug('Copying template', srcFilePath, 'to', dstFilePath);
 				this.fs.copyTpl(srcFilePath, dstFilePath, templateContext);
 			} else {
-				logger.debug("Copying file", srcFilePath, "to", dstFilePath);
+				logger.debug('Copying file', srcFilePath, 'to', dstFilePath);
 				this.fs.copy(srcFilePath, dstFilePath);
 			}
 
@@ -128,7 +143,7 @@ module.exports = class extends Generator {
 
 	_addDependencies(serviceDepdendenciesString) {
 		let serviceDependencies = JSON.parse(serviceDepdendenciesString);
-		let packageJsonPath = this.destinationPath("./package.json");
+		let packageJsonPath = this.destinationPath('./package.json');
 		this.fs.extendJSON(packageJsonPath, serviceDependencies);
 	}
 
@@ -143,7 +158,6 @@ module.exports = class extends Generator {
 			// if it doesn't match, throw an error.
 			if(!Array.isArray(overrideSpec) || originalSpec.length !== overrideSpec.length) {
 				throw 'Array length mismatch. You should consider replacing the whole file if you are making changes like that';
-				return;
 			}
 
 			// if it matches, iterate.
@@ -176,44 +190,46 @@ module.exports = class extends Generator {
 
 	_addOverrideYaml(overrideSpec, originalYamlPath) {
 		if (overrideSpec) {
-			var originalYamlSpec;
+			let originalYamlSpec;
 			if (this.fs.exists(originalYamlPath)) {
-				originalYamlSpec = yaml.safeLoad(this.fs.read(originalYamlPath))
+				originalYamlSpec = yaml.safeLoad(this.fs.read(originalYamlPath));
 			}
 			if (originalYamlSpec) {
 				this._recursiveReplaceYaml(overrideSpec, originalYamlSpec);
 			}
-			let regex = new RegExp(/\'\$\{/, 'g');
-			let regex1 = new RegExp("}'\n", 'g');
+			let regex = new RegExp(/'\$\{/, 'g');
+			let regex1 = new RegExp("}'\n", 'g'); // eslint-disable-line
 
-			this.fs.write(originalYamlPath, "---\n" + yaml.safeDump(overrideSpec, {
+			this.fs.write(originalYamlPath, '---\n' + yaml.safeDump(overrideSpec, {
 				'styles': {
 					'!!null': 'lowercase',
 					'!!boolean': 'lowercase'
 				},
 				'skipInvalid': true
-			}).replace(regex, "${").replace(regex1, "}\n"));	// library adds ' to strings like ${CF_APP_NAME}, so remove them for mustache replacement
+			})
+				.replace(regex, '${')
+				.replace(regex1, '}\n'));	// library adds ' to strings like ${CF_APP_NAME}, so remove them for mustache replacement
 		}
 	}
 
 	_addRouters(srcNodePath, dstNodePath) {
-		srcNodePath += "/server/routers";
-		let routersIndexJsFilePath = dstNodePath + "/server/routers/index.js";
+		srcNodePath += '/server/routers';
+		let routersIndexJsFilePath = dstNodePath + '/server/routers/index.js';
 		if (!this.fs.exists(routersIndexJsFilePath)) {
-			logger.warn(routersIndexJsFilePath, "not found, can't inject routers.");
+			logger.warn(routersIndexJsFilePath, 'not found, can\'t inject routers.');
 			return;
 		}
 
-		let files = Glob.sync(srcNodePath + "/*.js");
+		let files = Glob.sync(srcNodePath + '/*.js');
 		_.each(files, function (routerFilePath) {
-			let routerFileName = routerFilePath.replace(srcNodePath, "").replace(".js", "")
+			let routerFileName = routerFilePath.replace(srcNodePath, '').replace('.js', '');
 			let routersIndexJsFileContent = this.fs.read(routersIndexJsFilePath);
-			if (routersIndexJsFileContent.indexOf("public") > -1 && routerFileName.indexOf("public") > -1) {
+			if (routersIndexJsFileContent.indexOf('public') > -1 && routerFileName.indexOf('public') > -1) {
 				return; // Do not add public.js router more than once
 			}
 
-			let contentToAdd = "\trequire('." + routerFileName + "')(app);\n};";
-			routersIndexJsFileContent = routersIndexJsFileContent.replace("};", contentToAdd);
+			let contentToAdd = '\trequire(\'.' + routerFileName + '\')(app);\n};';
+			routersIndexJsFileContent = routersIndexJsFileContent.replace('};', contentToAdd);
 			this.fs.write(routersIndexJsFilePath, routersIndexJsFileContent);
 		}.bind(this));
 	}

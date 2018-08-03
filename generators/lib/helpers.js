@@ -1,5 +1,5 @@
 /*
- Copyright 2017 IBM Corp.
+ © Copyright IBM Corp. 2017, 2018
  Licensed under the Apache License, Version 2.0 (the "License");
  you may not use this file except in compliance with the License.
  You may obtain a copy of the License at
@@ -49,7 +49,7 @@ Handlebars.registerHelper('toLowerCase', function(context) {
 });
 
 Handlebars.registerHelper('tag', function(context) {
-	return "{{" + context + "}}";
+	return '{{' + context + '}}';
 });
 
 Handlebars.registerHelper('firstAvailable', function() {
@@ -58,9 +58,9 @@ Handlebars.registerHelper('firstAvailable', function() {
 			return arguments[i];
 		}
 	}
-	return "undefined";
+	return 'undefined';
 });
 
 module.exports = {
 	handlebars : Handlebars
-}
+};

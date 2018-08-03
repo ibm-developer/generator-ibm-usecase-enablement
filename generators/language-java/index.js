@@ -1,5 +1,5 @@
 /*
- * Copyright IBM Corporation 2017
+ * © Copyright IBM Corp. 2017, 2018
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,69 +13,108 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-const logger = require('log4js').getLogger("generator-usecase-enablement:language-java");
+const logger = require('log4js').getLogger('generator-usecase-enablement:language-java');
 const Generator = require('yeoman-generator');
 const fs = require('fs');
 const path = require('path');
 const handlebars = require('../lib/helpers').handlebars;
+const Glob = require('glob');
+const _ = require('lodash');
+const minimatch = require('minimatch');
 
 const CONFIG_JSON_TEMPLATE = 'config.json.template';    //controls configuration for a give use case
 
 module.exports = class extends Generator {
-  
-  constructor(args, opts) {
-    super(args, opts);
-    this.context = opts.context;
-    logger.setLevel(this.context.loggerLevel);
-  }
 
-  configuring() {
-    logger.debug(">>> configuring");
-    let configFilePath = path.join(this.context.starterKitSourcesPath, this.context.language, CONFIG_JSON_TEMPLATE);
-    if(fs.existsSync(configFilePath)) {
-      logger.info("Setting dependencies in parent context");
-      let dependenciesString = this.fs.read(configFilePath);
-      var template = handlebars.compile(dependenciesString);
-      dependenciesString = template(this.context.usecaseContext);
-      this.context._addDependencies(dependenciesString);
-    }
-  }
+	constructor(args, opts) {
+		super(args, opts);
+		this.context = opts.context;
+		logger.setLevel(this.context.loggerLevel);
+	}
 
-  writing() {
-    logger.debug(">>> writing");
-    let self = this;
-    let srcBasePath = path.join(this.context.starterKitSourcesPath, this.context.language);
+	configuring() {
+		logger.debug('>>> configuring');
+		const configFilePath = path.join(this.context.starterKitSourcesPath, this.context.language, CONFIG_JSON_TEMPLATE);
+		if(fs.existsSync(configFilePath)) {
+			logger.info('Setting dependencies in parent context');
+			let dependenciesString = this.fs.read(configFilePath);
+			const template = handlebars.compile(dependenciesString);
+			dependenciesString = template(this.context.usecaseContext);
+			this.context._addDependencies(dependenciesString);
+		}
+	}
 
-    try {
-      //process all files in src directory excluding config / control files
-      this.fs.copy([this.templatePath(srcBasePath + "/**"),
-        '!' + path.join(srcBasePath, CONFIG_JSON_TEMPLATE)
-      ], this.destinationPath(), { process : function (contents, filename) {
-        var compiledTemplate = handlebars.compile(contents.toString());
-        return compiledTemplate(self.context.usecaseContext);
-      }});
-    } catch (e) {
-      if(!e.message.includes("Trying to copy from a source that does not exist")) {
-        //ignore empty directory errors and re-throw everything else
-         /* istanbul ignore next */
-        throw e;
-      }
-    }
-   
-    //now see if there are any public files to be copied into a web context
-    let publicPath = path.join(this.context.starterKitSourcesPath, "public");
-    if(fs.existsSync(publicPath)) {
-      let destination = this.context.language == 'java-liberty' ? path.join(this.destinationPath(), 'src','main','webapp') 
-                                                                : path.join(this.destinationPath(), 'src', 'main', 'resources', 'static');
-      this.fs.copy(this.templatePath(publicPath + "/**"), destination, { process : function (contents, filename) {
-        var compiledTemplate = handlebars.compile(contents.toString());
-        return compiledTemplate(self.context.usecaseContext);
-      }});
-    }
-  }
+	writing() {
+		logger.debug('>>> writing');
+		const templateContext = {
+			bluemix: this.context.bluemix
+		};
 
+		const srcRoot = this.context.starterKitSourcesPath;
+		const srcJavaPath = path.join(this.context.starterKitSourcesPath, this.context.language);
+		const srcPublicPath = srcRoot + '/public';
+		const srcSharedPath = srcRoot + '/shared';
 
-  end() {
-    logger.debug(">>> end");
-  }
-}
+		const dstRoot = this.destinationPath();
+		const dstSharedPath = dstRoot;
+		let dstPublicPath = path.join(dstRoot, 'src','main','webapp');
+		if (this.context.language !== 'java-liberty') {
+			dstPublicPath = path.join(dstRoot, 'src', 'main', 'resources', 'static');
+		}
+
+		// Copy /src/shared
+		if (fs.existsSync(srcSharedPath)){
+			logger.debug('Copying shared files from', srcSharedPath);
+			this._copyFiles(srcSharedPath, dstSharedPath, templateContext);
+		}
+
+		// Copy /src/public
+		if (fs.existsSync(srcPublicPath)){
+			logger.debug('Copying public files from', srcPublicPath);
+			this._copyFiles(srcPublicPath, dstPublicPath, templateContext);
+		}
+
+		// Copy /src
+		if (fs.existsSync(srcJavaPath)){
+			logger.debug('Copying python-flask files from', srcJavaPath);
+			this._copyFiles(srcJavaPath, dstRoot, templateContext);
+		}
+	}
+
+	_copyFiles(srcPath, dstPath, templateContext) {
+		logger.debug('Copying files recursively from', srcPath, 'to', dstPath);
+		const files = Glob.sync(srcPath + '/**/*', {dot: true});
+		_.each(files, function (srcFilePath) {
+
+			// Do not process srcFilePath if it is pointing to a directory
+			if (fs.lstatSync(srcFilePath).isDirectory()) return;
+
+			// Do not process files that end in .partial, they're processed separately
+			if (srcFilePath.indexOf('.partial') > 0 || srcFilePath.indexOf('.replacement') > 0) return;
+
+			// Do not process CONFIG_JSON_TEMPLATE
+			if (srcFilePath.indexOf(CONFIG_JSON_TEMPLATE) > 0) return;
+
+			const dstFilePath = srcFilePath.replace(srcPath, dstPath);
+			let isEjsTemplate = true;
+			_.each(this.context.ejsExcludePatterns, function (ejsExludePattern) {
+				if (minimatch(path.basename(srcFilePath), ejsExludePattern)) {
+					isEjsTemplate = false;
+					return false;
+				}
+			});
+			if (isEjsTemplate) {
+				logger.debug('Copying template', srcFilePath, 'to', dstFilePath);
+				this.fs.copyTpl(srcFilePath, dstFilePath, templateContext);
+			} else {
+				logger.debug('Copying file', srcFilePath, 'to', dstFilePath);
+				this.fs.copy(srcFilePath, dstFilePath);
+			}
+
+		}.bind(this));
+	}
+	end() {
+		logger.debug('>>> end');
+	}
+};
+
