@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="3.2.6"></a>
+## [3.2.6](https://github.com/ibm-developer/generator-ibm-usecase-enablement/compare/v3.2.5...v3.2.6) (2018-08-03)
+
+
+### Bug Fixes
+
+* remove pipline.yml.partial  ([bcbb421677d6b259f0cbcd504c30b702da5c56ec]
+(https://github.com/ibm-developer/generator-ibm-usecase-enablement/commit/bcbb421677d6b259f0cbcd504c30b702da5c56ec))
+
+
+
 <a name="3.2.5"></a>
 ## [3.2.5](https://github.com/ibm-developer/generator-ibm-usecase-enablement/compare/v3.2.4...v3.2.5) (2018-07-24)
 
