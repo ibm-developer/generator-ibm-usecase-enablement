@@ -228,7 +228,7 @@ module.exports = class extends Generator {
 				return; // Do not add public.js router more than once
 			}
 
-			let contentToAdd = '\trequire(\'.' + routerFileName + '\')(app);\n};';
+			let contentToAdd = '    require(\'.' + routerFileName + '\')(app, server);\n};';
 			routersIndexJsFileContent = routersIndexJsFileContent.replace('};', contentToAdd);
 			this.fs.write(routersIndexJsFilePath, routersIndexJsFileContent);
 		}.bind(this));
