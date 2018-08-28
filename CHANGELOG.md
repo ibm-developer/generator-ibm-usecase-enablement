@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="3.2.7"></a>
+## [3.2.7](https://github.com/ibm-developer/generator-ibm-usecase-enablement/compare/v3.2.5...v3.2.7) (2018-08-28)
+
+
+### Bug Fixes
+
+* remove pipline.yml.partial ([#18](https://github.com/ibm-developer/generator-ibm-usecase-enablement/issues/18)) ([bcbb421](https://github.com/ibm-developer/generator-ibm-usecase-enablement/commit/bcbb421))
+* **java generator:** fixes bug in java generator where shared folder wouldn't be generated within cl ([257cc72](https://github.com/ibm-developer/generator-ibm-usecase-enablement/commit/257cc72))
+
+
+
 <a name="3.2.6"></a>
 ## [3.2.6](https://github.com/ibm-developer/generator-ibm-usecase-enablement/compare/v3.2.5...v3.2.6) (2018-08-03)
 
