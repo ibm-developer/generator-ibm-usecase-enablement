@@ -56,10 +56,11 @@ module.exports = class extends Generator {
 		const srcSharedPath = srcRoot + '/shared';
 
 		const dstRoot = this.destinationPath();
-		const dstSharedPath = dstRoot;
+		let dstSharedPath = path.join(dstRoot, 'src','main','webapp');;
 		let dstPublicPath = path.join(dstRoot, 'src','main','webapp');
 		if (this.context.language !== 'java-liberty') {
 			dstPublicPath = path.join(dstRoot, 'src', 'main', 'resources', 'static');
+			dstSharedPath = path.join(dstRoot, 'src', 'main', 'resources');
 		}
 
 		// Copy /src/shared
