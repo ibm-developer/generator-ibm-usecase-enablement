@@ -61,7 +61,7 @@ npm install -g generator-ibm-usecase-enablement
 ## Usage
 
 Following command line arguments are supported
-* `--bluemix {stringified-json}` -  used by  an internal microservice  to supply project information. For an example of a bluemix.json look at the [fallback_bluemix.js](./generators/app/fallback_bluemix.js) file.
+* `--bluemix {stringified-json}` -  used by  an internal microservice  to supply project information. For an example of a bluemix.json look at the [fallback_bluemix.js](./test/resources/fallback_bluemix.js) file.
 
 <a name="partial_files"></a>
 ### Partial Files
