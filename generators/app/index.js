@@ -225,10 +225,10 @@ module.exports = class extends Generator {
 		logger.info('Setting log level to', level);
 		/* istanbul ignore else */ //ignore for code coverage as the else block will set a known valid log level
 		if (Log4js.levels.hasOwnProperty(level)) {
-			logger.setLevel(Log4js.levels[level]);
+			logger.level = Log4js.levels[level];
 		} else {
 			logger.warn('Invalid log level specified (using default) : ' + level);
-			logger.setLevel(DEFAULT_LOG_LEVEL.toUpperCase());
+			logger.level = DEFAULT_LOG_LEVEL.toUpperCase();
 		}
 	}
 
