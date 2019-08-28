@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="3.3.0"></a>
+# [3.3.0](https://github.com/ibm-developer/generator-ibm-usecase-enablement/compare/v3.2.8...v3.3.0) (2019-08-28)
+
+
+### Features
+
+* devops insights reporting from travis, issue [#720](https://github.com/ibm-developer/generator-ibm-usecase-enablement/issues/720) ([78fc81b](https://github.com/ibm-developer/generator-ibm-usecase-enablement/commit/78fc81b))
+
+
+
 <a name="3.2.8"></a>
 ## [3.2.8](https://github.com/ibm-developer/generator-ibm-usecase-enablement/compare/v3.2.5...v3.2.8) (2018-10-24)
 
