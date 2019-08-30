@@ -1,6 +1,6 @@
 {
   "name": "generator-ibm-usecase-enablement",
-  "version": "3.2.8",
+  "version": "3.3.0",
   "description": "Generator to add usecase enablement",
   "files": [
     "generators"
@@ -15,6 +15,7 @@
     "autofix": "eslint --fix .",
     "version": "standard-version",
     "testjava": "mocha test/language-java/*-test.js",
+    "testinsights": "mocha --recursive --reporter mocha-multi-reporters --reporter-options configFile=config.json",
     "coveralls": "nyc report --reporter=text-lcov | coveralls"
   },
   "repository": {
@@ -26,15 +27,15 @@
   "dependencies": {
     "glob": "^7.1.2",
     "guid": "0.0.12",
-    "handlebars": "^4.0.11",
-    "js-yaml": "^3.12.0",
-    "lodash": "^4.17.10",
+    "handlebars": "^4.1.2",
+    "js-yaml": "^3.13.0",
+    "lodash": "^4.17.11",
     "log4js": "^3.0.5",
     "minimatch": "^3.0.4",
     "q": "^1.5.1",
     "request": "^2.87.0",
     "shelljs": "^0.7.0",
-    "yeoman-generator": "^3.1.1"
+    "yeoman-generator": "^3.2.0"
   },
   "devDependencies": {
     "chai": "^4.1.2",
@@ -43,7 +44,9 @@
     "eslint-plugin-ejs": "0.0.2",
     "fs-extra": "^4.0.3",
     "mocha": "^5.2.0",
-    "nyc": "^11.9.0",
+    "nyc": "^13.3.0",
+    "mocha-multi-reporters": "^1.1.7",
+    "xunit-file": "^1.0.0",
     "standard-version": "^4.4.0",
     "yeoman-assert": "^3.1.1",
     "yeoman-test": "^2.0.0"
