@@ -1,6 +1,6 @@
 {
   "name": "generator-ibm-usecase-enablement",
-  "version": "3.3.0",
+  "version": "3.3.1",
   "description": "Generator to add usecase enablement",
   "files": [
     "generators"
@@ -44,7 +44,7 @@
     "eslint-plugin-ejs": "0.0.2",
     "fs-extra": "^4.0.3",
     "mocha": "^5.2.0",
-    "nyc": "^13.3.0",
+    "nyc": "^14.1.1",
     "mocha-multi-reporters": "^1.1.7",
     "xunit-file": "^1.0.0",
     "standard-version": "^4.4.0",
